@@ -1562,6 +1562,10 @@
     // match, returns `true`. If no defined routes matches the fragment,
     // returns `false`.
     loadUrl: function(fragment) {
+      // not from navigate
+      if(typeof fragment === "undefined"){
+        this.referer=this.fragment;
+      }
       fragment = this.fragment = this.getFragment(fragment);
       return _.any(this.handlers, function(handler) {
         if (handler.route.test(fragment)) {
@@ -1588,6 +1592,7 @@
       fragment = decodeURI(fragment.replace(pathStripper, ''));
 
       if (this.fragment === fragment) return;
+      this.referer=this.fragment;
       this.fragment = fragment;
 
       // Don't include a trailing slash on the root.
